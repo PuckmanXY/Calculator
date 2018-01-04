@@ -13,14 +13,6 @@ class Display(Label):
     self.pack(side=LEFT)
   
 class Calculator:
-    def createButton(self, x):
-        return {
-            '1' or '2' or'3': CalButton(self.myContainer[1], lambda: self.buttonClick(str(x)), 5, 6, str(x)),
-            '4' or '5' or '6': CalButton(self.myContainer[2], lambda: self.buttonClick(str(x)), 5, 6, str(x)),
-            '7' or '8' or '9': CalButton(self.myContainer[3], lambda: self.buttonClick(str(x)), 5, 6, str(x)),
-            '0': CalButton(self.myContainer[4], lambda: self.buttonClick(str(x)), 5, 6, str(x))
-        }.get(x)
-
     def __init__(self, parent):
   
         #Valores
