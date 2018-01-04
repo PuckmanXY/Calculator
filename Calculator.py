@@ -1,11 +1,10 @@
 from tkinter import *
- 
+
 class CalButton(Button):
   def __init__(self, container, comandClick, height, width, text):
     super().__init__(container,command=comandClick)
     self.configure(height=height,width=width,text=text, background="#FF9933")
     self.pack(side=LEFT)
-    self.focus_force()
      
 class Display(Label):
   def __init__(self,container,height,width,text):
@@ -14,6 +13,14 @@ class Display(Label):
     self.pack(side=LEFT)
   
 class Calculator:
+    def createButton(self, x):
+        return {
+            '1' or '2' or'3': CalButton(self.myContainer[1], lambda: self.buttonClick(str(x)), 5, 6, str(x)),
+            '4' or '5' or '6': CalButton(self.myContainer[2], lambda: self.buttonClick(str(x)), 5, 6, str(x)),
+            '7' or '8' or '9': CalButton(self.myContainer[3], lambda: self.buttonClick(str(x)), 5, 6, str(x)),
+            '0': CalButton(self.myContainer[4], lambda: self.buttonClick(str(x)), 5, 6, str(x))
+        }.get(x)
+
     def __init__(self, parent):
   
         #Valores
@@ -26,79 +33,67 @@ class Calculator:
         #Janela
         self.myParent = parent
         self.myParent.title('Calculadora')
-        self.myParent.geometry('210x480')
-        self.myParent.resizable(0,0)
-  
-        self.myContainer0 = Frame(parent)
-        self.myContainer0.pack()
-  
-        self.myContainer1 = Frame(parent)
-        self.myContainer1.pack()
-  
-        self.myContainer2 = Frame(parent)
-        self.myContainer2.pack()
-  
-        self.myContainer3 = Frame(parent)
-        self.myContainer3.pack()
-  
-        self.myContainer4 = Frame(parent)
-        self.myContainer4.pack()
-  
-        self.myContainer5 = Frame(parent)
-        self.myContainer5.pack()
+        self.myParent.geometry('303x480')
+        self.myParent.resizable(1,1)
+
+        self.myContainer = []
+
+        for i in range(6):
+            self.myContainer.append(Frame(parent))
+            self.myContainer[i].pack()
   
   
   
         #Visores
-        self.visorValue1 = Display(self.myContainer0,5,5,self.n1)
+        self.visorValue1 = Display(self.myContainer[0], 5, 6, self.n1)
   
-        self.visorOperation = Display(self.myContainer0,5,1,self.operation)
+        self.visorOperation = Display(self.myContainer[0], 5, 5, self.operation)
   
-        self.visorValue2 = Display(self.myContainer0,5,5,self.n2)
+        self.visorValue2 = Display(self.myContainer[0], 5, 6, self.n2)
   
-        self.visorEquals = Display(self.myContainer0,5,1,'')
+        self.visorEquals = Display(self.myContainer[0], 5, 5, '')
   
-        self.visorResult = Display(self.myContainer0,5,14,'')
+        self.visorResult = Display(self.myContainer[0], 5, 15, '')
   
   
   
         #Botões de valor
-        self.button1 = CalButton(self.myContainer1,lambda:self.buttonClick('1'),5,6,"1")
-  
-        self.button2 = CalButton(self.myContainer1,lambda:self.buttonClick('2'),5,6,"2")
-  
-        self.button3 = CalButton(self.myContainer1,lambda:self.buttonClick('3'),5,6,"3")
- 
-        self.button4 = CalButton(self.myContainer2,lambda:self.buttonClick('4'),5,6,"4")
- 
-        self.button5 = CalButton(self.myContainer2,lambda:self.buttonClick('5'),5,6,"5")
-  
-        self.button6 = CalButton(self.myContainer2,lambda:self.buttonClick('6'),5,6,"6")
-  
-        self.button7 = CalButton(self.myContainer3,lambda:self.buttonClick('7'),5,6,"7")
-  
-        self.button8 = CalButton(self.myContainer3,lambda:self.buttonClick('8'),5,6,"8")
-  
-        self.button9 = CalButton(self.myContainer3,lambda:self.buttonClick('9'),5,6,"9")
-  
-        self.pointButton = CalButton(self.myContainer4,self.buttonPointClick,5,6,".")
-  
-        self.button0 = CalButton(self.myContainer4,lambda:self.buttonClick('0'),5,6,"0")
+        self.button1 = CalButton(self.myContainer[1],lambda:self.buttonClick('1'),5,6,"1")
+
+        self.button2 = CalButton(self.myContainer[1],lambda:self.buttonClick('2'),5,6,"2")
+
+        self.button3 = CalButton(self.myContainer[1],lambda:self.buttonClick('3'),5,6,"3")
+
+        self.button4 = CalButton(self.myContainer[2],lambda:self.buttonClick('4'),5,6,"4")
+
+        self.button5 = CalButton(self.myContainer[2],lambda:self.buttonClick('5'),5,6,"5")
+
+        self.button6 = CalButton(self.myContainer[2],lambda:self.buttonClick('6'),5,6,"6")
+
+        self.button7 = CalButton(self.myContainer[3],lambda:self.buttonClick('7'),5,6,"7")
+
+        self.button8 = CalButton(self.myContainer[3],lambda:self.buttonClick('8'),5,6,"8")
+
+        self.button9 = CalButton(self.myContainer[3],lambda:self.buttonClick('9'),5,6,"9")
+
+        self.button0 = CalButton(self.myContainer[4],lambda:self.buttonClick('0'),5,6,"0")
+
+        self.pointButton = CalButton(self.myContainer[4], self.buttonPointClick, 5, 6, ".")
          
          
   
-        ##Botões de operação
-        self.buttonReset = CalButton(self.myContainer5,self.ResetClick,3,28,"RESET")
+        ##Botões de operacão
+        self.buttonReset = CalButton(self.myContainer[5],self.ResetClick,3,35,"RESET")
   
-        self.buttonAddition = CalButton(self.myContainer1,lambda:self.OperationClick('+'),5,6,"+")
+        self.buttonAddition = CalButton(self.myContainer[1],lambda:self.OperationClick('+'),5,6,"+")
   
-        self.buttonSubtraction = CalButton(self.myContainer2,lambda:self.OperationClick('-'),5,6,"-")
+        self.buttonSubtraction = CalButton(self.myContainer[2],lambda:self.OperationClick('-'),5,6,"-")
   
-        self.buttonMultiplication = CalButton(self.myContainer3,lambda:self.OperationClick('*'),5,6,"*")
+        self.buttonMultiplication = CalButton(self.myContainer[3],lambda:self.OperationClick('*'),5,6,"*")
   
-        self.buttonEquals = CalButton(self.myContainer4,self.Equals,5,6,"=")
+        self.buttonEquals = CalButton(self.myContainer[4],self.Equals,5,6,"=")
   
-        self.buttonDivision = CalButton(self.myContainer4,lambda:self.OperationClick('/'),5,6,"/")
+        self.buttonDivision = CalButton(self.myContainer[4],lambda:self.OperationClick('/'),5,6,"/")
   
   
   
@@ -124,6 +119,7 @@ class Calculator:
             self.visorValue2.configure(text=self.n2)
   
     def OperationClick(self,operation):
+        self.pointClicked = False
         self.operation= operation
         self.visorOperation.configure(text=self.operation)
   
